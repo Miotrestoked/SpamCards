@@ -1,9 +1,10 @@
 using UnboundLib.Cards;
+using UnboundLib.GameModes;
 using UnityEngine;
 
 namespace SpamCards.Cards
 {
-    class SmallTweak : CustomCard
+    class TenPercentLoss : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
@@ -15,7 +16,8 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            gun.damage = 1f + (15f / gun.damage);
+            characterStats.health = 0.9f;
+
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
@@ -24,14 +26,19 @@ namespace SpamCards.Cards
             //Run when the card is removed from the player
         }
 
+        public override bool GetEnabled()
+        {
+            return false;
+        }
+
         protected override string GetTitle()
         {
-            return "Small tweak";
+            return "Health loss";
         }
 
         protected override string GetDescription()
         {
-            return "A small, flat boost to your damage.";
+            return "There goes 10% of your health.";
         }
 
         protected override GameObject GetCardArt()
@@ -51,16 +58,16 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "flat damage",
-                    amount = "+15",
-                    simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
+                    stat = "health",
+                    amount = "-10%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };
         }
 
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.TechWhite;
         }
 
         public override string GetModName()

@@ -1,9 +1,11 @@
 using UnboundLib.Cards;
+using UnboundLib.Utils;
+using ModdingUtils.Utils;
 using UnityEngine;
 
 namespace SpamCards.Cards
 {
-    class SmallTweak : CustomCard
+    class ItsMineNow : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
@@ -15,7 +17,20 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            gun.damage = 1f + (15f / gun.damage);
+            var cards = ModdingUtils.Utils.Cards.instance;
+
+            float healthToAdd = 0;
+            foreach (Player p in PlayerManager.instance.players)
+            {
+                if (p.teamID != player.teamID)
+                {
+                    healthToAdd += p.data.maxHealth * .1f;
+                    var healthloss = cards.GetCardWithObjectName("Health loss");
+                    cards.AddCardToPlayer(p, healthloss, false, "HL", 1, 0);
+                }
+            }
+
+            player.data.health = 1f + (healthToAdd / player.data.health);
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
@@ -26,12 +41,12 @@ namespace SpamCards.Cards
 
         protected override string GetTitle()
         {
-            return "Small tweak";
+            return "It's mine now";
         }
 
         protected override string GetDescription()
         {
-            return "A small, flat boost to your damage.";
+            return "Take 10% of each enemy's hp and add it to your own.";
         }
 
         protected override GameObject GetCardArt()
@@ -41,7 +56,7 @@ namespace SpamCards.Cards
 
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Common;
+            return CardInfo.Rarity.Uncommon;
         }
 
         protected override CardInfoStat[] GetStats()
@@ -51,16 +66,16 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "flat damage",
-                    amount = "+15",
-                    simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
+                    stat = "of each enemy's hp",
+                    amount = "+10%",
+                    simepleAmount = CardInfoStat.SimpleAmount.Some
                 }
             };
         }
 
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.PoisonGreen;
         }
 
         public override string GetModName()

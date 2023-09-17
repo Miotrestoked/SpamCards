@@ -1,9 +1,10 @@
 using UnboundLib.Cards;
+using UnboundLib.GameModes;
 using UnityEngine;
 
 namespace SpamCards.Cards
 {
-    class SmallTweak : CustomCard
+    class Underdog : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
@@ -15,7 +16,26 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            gun.damage = 1f + (15f / gun.damage);
+            int myPoints = GameModeManager.CurrentHandler.GetTeamScore(player.teamID).points;
+            int mostPoints = 0;
+
+            foreach (Player p in PlayerManager.instance.players)
+            {
+                if (p.teamID != player.teamID)
+                {
+                    int points = GameModeManager.CurrentHandler.GetTeamScore(p.teamID).points;
+                    if (points > mostPoints)
+                    {
+                        mostPoints = points;
+                    }
+                }
+            }
+
+            int pointDiff = mostPoints - myPoints;
+            if (pointDiff > 0)
+            {
+                gun.damage = 1f + ((pointDiff * 5) / gun.damage);
+            }
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
@@ -26,12 +46,12 @@ namespace SpamCards.Cards
 
         protected override string GetTitle()
         {
-            return "Small tweak";
+            return "Underdog";
         }
 
         protected override string GetDescription()
         {
-            return "A small, flat boost to your damage.";
+            return "Gain damage for each point you are behind the team with the most points.";
         }
 
         protected override GameObject GetCardArt()
@@ -41,7 +61,7 @@ namespace SpamCards.Cards
 
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Common;
+            return CardInfo.Rarity.Uncommon;
         }
 
         protected override CardInfoStat[] GetStats()
@@ -51,16 +71,16 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "flat damage",
-                    amount = "+15",
-                    simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
+                    stat = "flat damage per point",
+                    amount = "+5",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };
         }
 
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.PoisonGreen;
         }
 
         public override string GetModName()

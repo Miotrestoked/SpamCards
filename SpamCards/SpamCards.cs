@@ -32,7 +32,15 @@ namespace SpamCards
         void Start()
         {
             Instance = this;
+
+            //regular cards
+            CustomCard.BuildCard<ItsMineNow>();
             CustomCard.BuildCard<SmallTweak>();
+            CustomCard.BuildCard<Underdog>();
+
+            //hidden cards
+            var cards = ModdingUtils.Utils.Cards.instance;
+            CustomCard.BuildCard<TenPercentLoss>(cards.AddHiddenCard);
         }
     }
 }
