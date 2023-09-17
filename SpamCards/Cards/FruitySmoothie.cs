@@ -32,12 +32,12 @@ namespace SpamCards.Cards
 
         protected override string GetTitle()
         {
-            return "It's mine now";
+            return "Fruity Smoothie";
         }
 
         protected override string GetDescription()
         {
-            return "Take 10% of each enemy's hp and add it to your own.";
+            return "A refreshing and healthy drink.";
         }
 
         protected override GameObject GetCardArt()
@@ -47,7 +47,7 @@ namespace SpamCards.Cards
 
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Uncommon;
+            return CardInfo.Rarity.Common;
         }
 
         protected override CardInfoStat[] GetStats()
@@ -57,16 +57,23 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "of each enemy's hp",
-                    amount = "+10%",
+                    stat = "max health",
+                    amount = "+20%",
                     simepleAmount = CardInfoStat.SimpleAmount.Some
+                },
+                new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "hp/s",
+                    amount = "+1",
+                    simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
                 }
             };
         }
 
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.PoisonGreen;
+            return CardThemeColor.CardThemeColorType.ColdBlue;
         }
 
         public override string GetModName()
