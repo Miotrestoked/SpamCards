@@ -1,3 +1,4 @@
+using System;
 using UnboundLib.Cards;
 using UnityEngine;
 
@@ -15,7 +16,12 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            gun.damage = 1f + (15f / gun.damage);
+            UnityEngine.Debug.Log($"[{SpamCards.ModInitials}][Log] The player's current damage is {player.data.weaponHandler.gun.damage}.");
+            
+            gun.damage += (15f / 55f);
+            
+            UnityEngine.Debug.Log($"[{SpamCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
+            UnityEngine.Debug.Log($"[{SpamCards.ModInitials}][Log] The player's new damage is {player.data.weaponHandler.gun.damage}.");
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,

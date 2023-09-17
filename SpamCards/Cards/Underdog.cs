@@ -34,7 +34,7 @@ namespace SpamCards.Cards
             int pointDiff = mostPoints - myPoints;
             if (pointDiff > 0)
             {
-                gun.damage = 1f + ((pointDiff * 5) / gun.damage);
+                gun.damage += ((pointDiff * 5f) / 55f);
             }
         }
 

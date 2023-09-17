@@ -20,7 +20,7 @@ namespace SpamCards
         public const string Version = "1.0.0"; // What version are we on (major.minor.patch)?
         public const string ModInitials = "SCP";
 
-        public static SpamCards Instance { get; private set; } = default!;
+        public static SpamCards instance { get; private set; }
 
         void Awake()
         {
@@ -31,7 +31,7 @@ namespace SpamCards
 
         void Start()
         {
-            Instance = this;
+            instance = this;
 
             //regular cards
             CustomCard.BuildCard<ItsMineNow>();
