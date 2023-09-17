@@ -6,6 +6,8 @@ namespace SpamCards.Cards
 {
     class Underdog : CustomCard
     {
+        private int pointTotal;
+
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
@@ -31,10 +33,10 @@ namespace SpamCards.Cards
                 }
             }
 
-            int pointDiff = mostPoints - myPoints;
-            if (pointDiff > 0)
+            pointTotal = mostPoints - myPoints;
+            if (pointTotal > 0)
             {
-                gun.damage += ((pointDiff * 5f) / 55f);
+                gun.damage += ((pointTotal * 5f) / 55f);
             }
         }
 
@@ -42,6 +44,7 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
+            gun.damage -= ((pointTotal * 5f) / 55f);
         }
 
         protected override string GetTitle()

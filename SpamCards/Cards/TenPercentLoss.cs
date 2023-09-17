@@ -15,7 +15,7 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            characterStats.health = 0.9f;
+            player.data.maxHealth *= 0.9f;
 
         }
 
@@ -23,6 +23,7 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
+            player.data.maxHealth /= 0.9f;
         }
 
         public override bool GetEnabled()

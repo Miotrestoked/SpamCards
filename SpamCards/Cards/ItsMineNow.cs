@@ -7,6 +7,8 @@ namespace SpamCards.Cards
 {
     class ItsMineNow : CustomCard
     {
+        private float hpTotal;
+
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
@@ -19,24 +21,24 @@ namespace SpamCards.Cards
             //Edits values on player when card is selected
             var cards = ModdingUtils.Utils.Cards.instance;
 
-            float healthToAdd = 0;
             foreach (Player p in PlayerManager.instance.players)
             {
                 if (p.teamID != player.teamID)
                 {
-                    healthToAdd += p.data.maxHealth * .1f;
+                    hpTotal += p.data.maxHealth * .1f;
                     var healthloss = cards.GetCardWithObjectName("Health loss");
                     cards.AddCardToPlayer(p, healthloss, false, "HL", 1, 0);
                 }
             }
 
-            player.data.health = 1f + (healthToAdd / player.data.health);
+            player.data.maxHealth += hpTotal;
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
+            player.data.maxHealth -= hpTotal;
         }
 
         protected override string GetTitle()
