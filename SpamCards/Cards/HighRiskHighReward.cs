@@ -1,42 +1,30 @@
 using UnboundLib.Cards;
-using UnboundLib.GameModes;
 using UnityEngine;
 
 namespace SpamCards.Cards
 {
-    class Underdog : CustomCard
+    class HighRiskHighReward : CustomCard
     {
-        private int pointTotal;
-
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
+            gun.damage = 2f;
         }
 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            int myPoints = GameModeManager.CurrentHandler.GetTeamScore(player.teamID).points;
-            int mostPoints = 0;
+            var cards = ModdingUtils.Utils.Cards.instance;
 
             foreach (Player p in PlayerManager.instance.players)
             {
                 if (p.teamID != player.teamID)
                 {
-                    int points = GameModeManager.CurrentHandler.GetTeamScore(p.teamID).points;
-                    if (points > mostPoints)
-                    {
-                        mostPoints = points;
-                    }
+                    var damagebuff = SpamCards.buffCards[0];
+                    cards.AddCardToPlayer(p, damagebuff, false, "DB", 0, 0);
                 }
-            }
-
-            pointTotal = mostPoints - myPoints;
-            if (pointTotal > 0)
-            {
-                gun.damage += ((pointTotal * 5f) / 55f);
             }
         }
 
@@ -48,12 +36,12 @@ namespace SpamCards.Cards
 
         protected override string GetTitle()
         {
-            return "Underdog";
+            return "High risk, high reward";
         }
 
         protected override string GetDescription()
         {
-            return "Gain damage for each point you are behind the team with the most points.";
+            return "You get a major damage buff, but so do your opponents...";
         }
 
         protected override GameObject GetCardArt()
@@ -63,7 +51,7 @@ namespace SpamCards.Cards
 
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Uncommon;
+            return CardInfo.Rarity.Rare;
         }
 
         protected override CardInfoStat[] GetStats()
@@ -73,16 +61,23 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Flat damage per point",
-                    amount = "+5",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                    stat = "Damage",
+                    amount = "+100%",
+                    simepleAmount = CardInfoStat.SimpleAmount.aHugeAmountOf
+                },
+                new CardInfoStat()
+                {
+                    positive = false,
+                    stat = "Damage for your enemies",
+                    amount = "+50%",
+                    simepleAmount = CardInfoStat.SimpleAmount.aLotOf
                 }
             };
         }
 
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.PoisonGreen;
+            return CardThemeColor.CardThemeColorType.MagicPink;
         }
 
         public override string GetModName()

@@ -22,7 +22,6 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            gun.damage -= (15f / 55f);
         }
 
         protected override string GetTitle()

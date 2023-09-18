@@ -36,7 +36,6 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            player.data.maxHealth -= hpTotal;
         }
 
         protected override string GetTitle()

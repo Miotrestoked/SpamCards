@@ -23,9 +23,6 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-            statModifiers.health -= .2f;
-            statModifiers.regen -= 1f;
-
         }
 
         protected override string GetTitle()

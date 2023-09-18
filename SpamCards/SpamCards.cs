@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BepInEx;
 using HarmonyLib;
 using SpamCards.Cards;
@@ -23,6 +22,7 @@ namespace SpamCards
         public const string ModInitials = "SCP";
 
         internal static List<CardInfo> debuffCards = new List<CardInfo>();
+        internal static List<CardInfo> buffCards = new List<CardInfo>();
 
         public static SpamCards instance { get; private set; }
 
@@ -38,20 +38,30 @@ namespace SpamCards
             instance = this;
             var cards = ModdingUtils.Utils.Cards.instance;
 
-            Action<CardInfo> debuffCardInit = (CardInfo c) =>
+            void debuffCardInit(CardInfo c)
             {
                 cards.AddHiddenCard(c);
                 debuffCards.Add(c);
-            };
+            }
+
+            void buffCardInit(CardInfo c)
+            {
+                cards.AddHiddenCard(c);
+                buffCards.Add(c);
+            }
 
             //regular cards
             CustomCard.BuildCard<ItsMineNow>();
             CustomCard.BuildCard<SmallTweak>();
             CustomCard.BuildCard<Underdog>();
+            CustomCard.BuildCard<FruitySmoothie>();
+            CustomCard.BuildCard<HighRiskHighReward>();
 
-            //hidden cards
+            //hidden cards (debuffs)
             CustomCard.BuildCard<HealthLoss>(debuffCardInit);
 
+            //hidden cards (buffs)
+            CustomCard.BuildCard<DamageBuff>(buffCardInit);
         }
     }
 }
