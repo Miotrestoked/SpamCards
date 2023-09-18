@@ -1,4 +1,6 @@
-﻿using BepInEx;
+﻿using System;
+using System.Collections.Generic;
+using BepInEx;
 using HarmonyLib;
 using SpamCards.Cards;
 using UnboundLib.Cards;
@@ -20,6 +22,8 @@ namespace SpamCards
         public const string Version = "1.0.0"; // What version are we on (major.minor.patch)?
         public const string ModInitials = "SCP";
 
+        internal static List<CardInfo> debuffCards = new List<CardInfo>();
+
         public static SpamCards instance { get; private set; }
 
         void Awake()
@@ -32,6 +36,13 @@ namespace SpamCards
         void Start()
         {
             instance = this;
+            var cards = ModdingUtils.Utils.Cards.instance;
+
+            Action<CardInfo> debuffCardInit = (CardInfo c) =>
+            {
+                cards.AddHiddenCard(c);
+                debuffCards.Add(c);
+            };
 
             //regular cards
             CustomCard.BuildCard<ItsMineNow>();
@@ -39,8 +50,8 @@ namespace SpamCards
             CustomCard.BuildCard<Underdog>();
 
             //hidden cards
-            var cards = ModdingUtils.Utils.Cards.instance;
-            CustomCard.BuildCard<TenPercentLoss>(cards.AddHiddenCard);
+            CustomCard.BuildCard<HealthLoss>(debuffCardInit);
+
         }
     }
 }

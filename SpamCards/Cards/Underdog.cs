@@ -74,7 +74,7 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "flat damage per point",
+                    stat = "Flat damage per point",
                     amount = "+5",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }

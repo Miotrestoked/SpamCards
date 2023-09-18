@@ -1,4 +1,3 @@
-using System;
 using UnboundLib.Cards;
 using UnityEngine;
 
@@ -53,7 +52,7 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "flat damage",
+                    stat = "Flat damage",
                     amount = "+15",
                     simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
                 }

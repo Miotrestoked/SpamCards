@@ -1,6 +1,4 @@
 using UnboundLib.Cards;
-using UnboundLib.Utils;
-using ModdingUtils.Utils;
 using UnityEngine;
 
 namespace SpamCards.Cards
@@ -26,8 +24,8 @@ namespace SpamCards.Cards
                 if (p.teamID != player.teamID)
                 {
                     hpTotal += p.data.maxHealth * .1f;
-                    var healthloss = cards.GetCardWithObjectName("Health loss");
-                    cards.AddCardToPlayer(p, healthloss, false, "HL", 1, 0);
+                    var healthloss = SpamCards.debuffCards[0];
+                    cards.AddCardToPlayer(p, healthloss, false, "HL", 0, 0);
                 }
             }
 
@@ -68,7 +66,7 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "of each enemy's hp",
+                    stat = "Of each enemy's hp",
                     amount = "+10%",
                     simepleAmount = CardInfoStat.SimpleAmount.Some
                 }

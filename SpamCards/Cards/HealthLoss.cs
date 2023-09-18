@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SpamCards.Cards
 {
-    class TenPercentLoss : CustomCard
+    class HealthLoss : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
@@ -57,8 +57,8 @@ namespace SpamCards.Cards
             {
                 new CardInfoStat()
                 {
-                    positive = true,
-                    stat = "health",
+                    positive = false,
+                    stat = "Max health",
                     amount = "-10%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
