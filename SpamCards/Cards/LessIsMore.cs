@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace SpamCards.Cards
 {
-    class Underdog : CustomCard
+    class LessIsMore : CustomCard
     {
-        private int pointTotal;
+        private int roundTotal;
 
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
@@ -18,25 +18,25 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            int myPoints = GameModeManager.CurrentHandler.GetTeamScore(player.teamID).points;
-            int mostPoints = 0;
+            int myRounds = GameModeManager.CurrentHandler.GetTeamScore(player.teamID).rounds;
+            int mostRounds = 0;
 
             foreach (Player p in PlayerManager.instance.players)
             {
                 if (p.teamID != player.teamID)
                 {
-                    int points = GameModeManager.CurrentHandler.GetTeamScore(p.teamID).points;
-                    if (points > mostPoints)
+                    int rounds = GameModeManager.CurrentHandler.GetTeamScore(p.teamID).rounds;
+                    if (rounds > mostRounds)
                     {
-                        mostPoints = points;
+                        mostRounds = rounds;
                     }
                 }
             }
 
-            pointTotal = mostPoints - myPoints;
-            if (pointTotal > 0)
+            roundTotal = mostRounds - myRounds;
+            if (roundTotal > 0)
             {
-                gun.damage += ((pointTotal * 5f) / 55f);
+                gun.damage += ((roundTotal * 5f) / 55f);
             }
         }
 
@@ -48,12 +48,12 @@ namespace SpamCards.Cards
 
         protected override string GetTitle()
         {
-            return "Underdog";
+            return "Less is more";
         }
 
         protected override string GetDescription()
         {
-            return "Gain damage for each point you are behind the team with the most points.";
+            return "Gain damage for each round you are behind the team with the most rounds.";
         }
 
         protected override GameObject GetCardArt()
@@ -73,7 +73,7 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Flat damage per point",
+                    stat = "Flat damage per round",
                     amount = "+5",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }

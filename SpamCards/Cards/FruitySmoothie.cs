@@ -9,8 +9,8 @@ namespace SpamCards.Cards
             CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            statModifiers.health += .2f;
-            statModifiers.regen += 1f;
+            statModifiers.health = 1.2f;
+            statModifiers.regen = 1f;
         }
 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,

@@ -53,7 +53,7 @@ namespace SpamCards
             //regular cards
             CustomCard.BuildCard<ItsMineNow>();
             CustomCard.BuildCard<SmallTweak>();
-            CustomCard.BuildCard<Underdog>();
+            CustomCard.BuildCard<LessIsMore>();
             CustomCard.BuildCard<FruitySmoothie>();
             CustomCard.BuildCard<HighRiskHighReward>();
 
