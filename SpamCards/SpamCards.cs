@@ -56,6 +56,8 @@ namespace SpamCards
             CustomCard.BuildCard<LessIsMore>();
             CustomCard.BuildCard<FruitySmoothie>();
             CustomCard.BuildCard<HighRiskHighReward>();
+            CustomCard.BuildCard<SpeedTransfer>();
+            CustomCard.BuildCard<RussianRoulette>();
 
             //hidden cards (debuffs)
             CustomCard.BuildCard<HealthLoss>(debuffCardInit);
