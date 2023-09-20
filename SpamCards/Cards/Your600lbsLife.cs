@@ -17,7 +17,7 @@ namespace SpamCards.Cards
             List<Player> opponents = SpamCards.GetOpponents(PlayerManager.instance.players, player);
             foreach (Player opponent in opponents)
             {
-                ModdingUtils.Utils.Cards.instance.AddCardToPlayer(opponent, SpamCards.findCard("My 600 lbs Life"), false, "JC", 0, 0);
+                ModdingUtils.Utils.Cards.instance.AddCardToPlayer(opponent, SpamCards.FindCard("My 600 lbs Life"), false, "JC", 0, 0);
             }
 
             //Edits values on player when card is selected

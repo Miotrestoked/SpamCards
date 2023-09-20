@@ -20,6 +20,10 @@ namespace SpamCards.Cards
             //Run when the card is removed from the player
         }
 
+        public override bool GetEnabled()
+        {
+            return false;
+        }
 
         protected override string GetTitle()
         {

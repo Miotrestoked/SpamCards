@@ -1,0 +1,12 @@
+{
+    "name": "SpamCards",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/Miotrestoked/SpamCards",
+    "description": "A Rounds mod we made for our friend group",
+    "dependencies": [
+        "willis81808-UnboundLib-3.2.10",
+        "Pykess-CardChoiceSpawnUniqueCardPatch-0.1.9",
+        "Pykess-ModdingUtils-0.4.6",
+        "BepInEx-BepInExPack_ROUNDS-5.4.1900"
+    ]
+}

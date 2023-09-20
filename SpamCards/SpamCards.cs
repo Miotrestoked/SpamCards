@@ -39,18 +39,6 @@ namespace SpamCards
             instance = this;
             var cards = ModdingUtils.Utils.Cards.instance;
 
-            void debuffCardInit(CardInfo c)
-            {
-                cards.AddHiddenCard(c);
-                debuffCards.Add(c);
-            }
-
-            void buffCardInit(CardInfo c)
-            {
-                cards.AddHiddenCard(c);
-                buffCards.Add(c);
-            }
-
             //regular cards
             CustomCard.BuildCard<ItsMineNow>();
             CustomCard.BuildCard<SmallTweak>();
@@ -65,17 +53,33 @@ namespace SpamCards
             CustomCard.BuildCard<ResetHP>();
             CustomCard.BuildCard<Your600lbsLife>();
             CustomCard.BuildCard<AmmoHeist>();
+            CustomCard.BuildCard<FasterBullets>();
+            CustomCard.BuildCard<FasterBulletsPlus>();
+            CustomCard.BuildCard<FasterBulletsPlusPlus>();
+            CustomCard.BuildCard<FasterBulletsPlusPlusPlus>();
 
             //hidden cards (debuffs)
-            CustomCard.BuildCard<HealthLoss>(debuffCardInit);
-            CustomCard.BuildCard<My600lbsLife>(debuffCardInit);
-            CustomCard.BuildCard<Goteem>(debuffCardInit);
+            CustomCard.BuildCard<HealthLoss>(DebuffCardInit);
+            CustomCard.BuildCard<My600lbsLife>(DebuffCardInit);
+            CustomCard.BuildCard<Goteem>(DebuffCardInit);
 
             //hidden cards (buffs)
-            CustomCard.BuildCard<DamageBuff>(buffCardInit);
-            CustomCard.BuildCard<HeckingSmallBoi>(buffCardInit);
-        }
+            CustomCard.BuildCard<DamageBuff>(BuffCardInit);
+            CustomCard.BuildCard<HeckingSmallBoi>(BuffCardInit);
+            return;
 
+            void BuffCardInit(CardInfo c)
+            {
+                cards.AddHiddenCard(c);
+                buffCards.Add(c);
+            }
+
+            void DebuffCardInit(CardInfo c)
+            {
+                cards.AddHiddenCard(c);
+                debuffCards.Add(c);
+            }
+        }
 
         public static Player GetRandomOpponent(List<Player> players, Player currentPlayer)
         {
@@ -108,7 +112,7 @@ namespace SpamCards
             return opponents;
         }
 
-        public static CardInfo findCard(string cardName)
+        public static CardInfo FindCard(string cardName)
         {
             var cards = ModdingUtils.Utils.Cards.instance;
 

@@ -16,7 +16,7 @@ namespace SpamCards.Cards
             {
                 if (otherPlayer.teamID == player.teamID)
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(otherPlayer, SpamCards.findCard("Hecking small boi"), false, "JC", 0, 0);
+                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(otherPlayer, SpamCards.FindCard("Hecking small boi"), false, "JC", 0, 0);
                 }
             }
            

@@ -1,23 +1,21 @@
-﻿using UnboundLib.Cards;
+using UnboundLib.Cards;
 using UnityEngine;
 
 namespace SpamCards.Cards
 {
-    class AmmoHeist : CustomCard
+    class FasterBulletsPlusPlusPlus : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
+            gun.projectileSpeed = 3f;
         }
 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
-            gun.ammo += 3;
             //Edits values on player when card is selected
-            Player opponent = SpamCards.GetRandomOpponent(PlayerManager.instance.players, player);
-            ModdingUtils.Utils.Cards.instance.AddCardToPlayer(opponent, SpamCards.FindCard("Goteem"), false, "JC", 0, 0);
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
@@ -28,12 +26,12 @@ namespace SpamCards.Cards
 
         protected override string GetTitle()
         {
-            return "Ammo heist";
+            return "Faster bullets++";
         }
 
         protected override string GetDescription()
         {
-            return "Take 3 ammo from one of your enemies";
+            return "Pew pew pew pew!";
         }
 
         protected override GameObject GetCardArt()
@@ -43,7 +41,7 @@ namespace SpamCards.Cards
 
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Uncommon;
+            return CardInfo.Rarity.Rare;
         }
 
         protected override CardInfoStat[] GetStats()
@@ -53,16 +51,16 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Of a random enemies ammo",
-                    amount = "+3",
-                    simepleAmount = CardInfoStat.SimpleAmount.Some
+                    stat = "Projectile speed",
+                    amount = "+200%",
+                    simepleAmount = CardInfoStat.SimpleAmount.aHugeAmountOf
                 }
             };
         }
 
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.PoisonGreen;
+            return CardThemeColor.CardThemeColorType.MagicPink;
         }
 
         public override string GetModName()

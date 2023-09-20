@@ -28,7 +28,6 @@ namespace SpamCards.Cards
             //Run when the card is removed from the player
         }
 
-
         protected override string GetTitle()
         {
             return "Hecking small boi";
