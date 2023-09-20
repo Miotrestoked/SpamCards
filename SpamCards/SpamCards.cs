@@ -24,7 +24,6 @@ namespace SpamCards
 
         internal static List<CardInfo> debuffCards = new List<CardInfo>();
         internal static List<CardInfo> buffCards = new List<CardInfo>();
-        internal static List<CardInfo> Allcards = new List<CardInfo>();
 
         public static SpamCards instance { get; private set; }
 
@@ -43,36 +42,29 @@ namespace SpamCards
             void debuffCardInit(CardInfo c)
             {
                 cards.AddHiddenCard(c);
-                Allcards.Add(c);
                 debuffCards.Add(c);
             }
 
             void buffCardInit(CardInfo c)
             {
                 cards.AddHiddenCard(c);
-                Allcards.Add(c);
                 buffCards.Add(c);
-            }
-            
-            void loadCard(CardInfo c)
-            {
-                Allcards.Add(c);
             }
 
             //regular cards
-            CustomCard.BuildCard<ItsMineNow>(loadCard);
-            CustomCard.BuildCard<SmallTweak>(loadCard);
-            CustomCard.BuildCard<LessIsMore>(loadCard);
-            CustomCard.BuildCard<FruitySmoothie>(loadCard);
-            CustomCard.BuildCard<HighRiskHighReward>(loadCard);
-            CustomCard.BuildCard<SpeedTransfer>(loadCard);
-            CustomCard.BuildCard<RussianRoulette>(loadCard);
-            CustomCard.BuildCard<AttackOfTheDwarves>(loadCard);
-            CustomCard.BuildCard<EqualPlayingGrounds>(loadCard);
-            CustomCard.BuildCard<PLSNerf>(loadCard);
-            CustomCard.BuildCard<ResetHP>(loadCard);
-            CustomCard.BuildCard<Your600lbsLife>(loadCard);
-            CustomCard.BuildCard<AmmoHeist>(loadCard);
+            CustomCard.BuildCard<ItsMineNow>();
+            CustomCard.BuildCard<SmallTweak>();
+            CustomCard.BuildCard<LessIsMore>();
+            CustomCard.BuildCard<FruitySmoothie>();
+            CustomCard.BuildCard<HighRiskHighReward>();
+            CustomCard.BuildCard<SpeedTransfer>();
+            CustomCard.BuildCard<RussianRoulette>();
+            CustomCard.BuildCard<AttackOfTheDwarves>();
+            CustomCard.BuildCard<EqualPlayingGrounds>();
+            CustomCard.BuildCard<PLSNerf>();
+            CustomCard.BuildCard<ResetHP>();
+            CustomCard.BuildCard<Your600lbsLife>();
+            CustomCard.BuildCard<AmmoHeist>();
 
             //hidden cards (debuffs)
             CustomCard.BuildCard<HealthLoss>(debuffCardInit);
@@ -83,8 +75,8 @@ namespace SpamCards
             CustomCard.BuildCard<DamageBuff>(buffCardInit);
             CustomCard.BuildCard<HeckingSmallBoi>(buffCardInit);
         }
-        
-       
+
+
         public static Player GetRandomOpponent(List<Player> players, Player currentPlayer)
         {
             List<Player> opponents = new List<Player>();
@@ -95,13 +87,13 @@ namespace SpamCards
                     opponents.Add(player);
                 }
             }
-            
+
             Random random = new Random();
             int randomPlayer = random.Next(0, players.Count);
 
             return opponents[randomPlayer];
         }
-        
+
         public static List<Player> GetOpponents(List<Player> players, Player currentPlayer)
         {
             List<Player> opponents = new List<Player>();
@@ -115,18 +107,12 @@ namespace SpamCards
 
             return opponents;
         }
-        
+
         public static CardInfo findCard(string cardName)
         {
-            foreach (CardInfo cardInfo in Allcards)
-            {
-                if (cardInfo.cardName.Equals(cardName))
-                {
-                    return cardInfo;
-                }
-            }
+            var cards = ModdingUtils.Utils.Cards.instance;
 
-            return null;
+            return cards.GetCardWithObjectName($"__{ModInitials}__{cardName}");
         }
     }
 }

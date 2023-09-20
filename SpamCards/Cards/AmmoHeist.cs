@@ -5,8 +5,6 @@ namespace SpamCards.Cards
 {
     class AmmoHeist : CustomCard
     {
-        private float hpTotal;
-
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
