@@ -8,7 +8,6 @@ namespace SpamCards.Cards
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
-            gun.ammo -= 3;
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
         }
 
@@ -16,6 +15,11 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
+            gunAmmo.maxAmmo -= 3;
+            if (gunAmmo.maxAmmo <= 0)
+            {
+                gunAmmo.maxAmmo = 1;
+            }
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,

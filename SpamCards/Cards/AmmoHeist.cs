@@ -14,8 +14,8 @@ namespace SpamCards.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
-            gun.ammo += 3;
             //Edits values on player when card is selected
+            gunAmmo.maxAmmo += 3;
             Player opponent = SpamCards.GetRandomOpponent(PlayerManager.instance.players, player);
             ModdingUtils.Utils.Cards.instance.AddCardToPlayer(opponent, SpamCards.FindCard("Goteem"), false, "JC", 0, 0);
         }
