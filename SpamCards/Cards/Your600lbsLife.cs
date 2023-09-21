@@ -9,18 +9,16 @@ namespace SpamCards.Cards
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
-            
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
-            List<Player> opponents = SpamCards.GetOpponents(PlayerManager.instance.players, player);
-            foreach (Player opponent in opponents)
-            {
-                ModdingUtils.Utils.Cards.instance.AddCardToPlayer(opponent, SpamCards.FindCard("My 600 lbs Life"), false, "JC", 0, 0);
-            }
-
             //Edits values on player when card is selected
+            List<Player> opponents = SpamCards.GetOpponents(player);
+
+            var cards = ModdingUtils.Utils.Cards.instance;
+
+            opponents.ForEach(opp => cards.AddCardToPlayer(opp, SpamCards.FindCard("My 600 lbs Life"), false, "JC", 0, 0));
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {

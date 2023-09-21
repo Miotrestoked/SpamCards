@@ -19,9 +19,9 @@ namespace SpamCards.Cards
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
-            Player randomPlayer = SpamCards.GetRandomOpponent(PlayerManager.instance.players, player); 
-            ModdingUtils.Utils.Cards.instance.AddCardToPlayer(randomPlayer, SpamCards.FindCard("Reset HP"), false, "RH", 0, 0);
             //Edits values on player when card is selected
+            Player randomPlayer = SpamCards.GetRandomOpponent(player); 
+            ModdingUtils.Utils.Cards.instance.AddCardToPlayer(randomPlayer, SpamCards.FindCard("Reset HP"), false, "RH", 0, 0);
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {

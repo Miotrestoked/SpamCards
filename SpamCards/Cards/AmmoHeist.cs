@@ -16,7 +16,7 @@ namespace SpamCards.Cards
         {
             //Edits values on player when card is selected
             gunAmmo.maxAmmo += 3;
-            Player opponent = SpamCards.GetRandomOpponent(PlayerManager.instance.players, player);
+            Player opponent = SpamCards.GetRandomOpponent(player);
             ModdingUtils.Utils.Cards.instance.AddCardToPlayer(opponent, SpamCards.FindCard("Goteem"), false, "JC", 0, 0);
         }
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BepInEx;
 using HarmonyLib;
 using SpamCards.Cards;
+using UnboundLib;
 using UnboundLib.Cards;
 
 namespace SpamCards
@@ -81,35 +83,16 @@ namespace SpamCards
             }
         }
 
-        public static Player GetRandomOpponent(List<Player> players, Player currentPlayer)
+        public static Player GetRandomOpponent(Player player)
         {
-            List<Player> opponents = new List<Player>();
-            foreach (Player player in players)
-            {
-                if (player.playerID != currentPlayer.playerID && player.teamID != currentPlayer.teamID)
-                {
-                    opponents.Add(player);
-                }
-            }
+            List<Player> opponents = GetOpponents(player);
 
-            Random random = new Random();
-            int randomPlayer = random.Next(0, players.Count);
-
-            return opponents[randomPlayer];
+            return opponents.GetRandom<Player>();
         }
 
-        public static List<Player> GetOpponents(List<Player> players, Player currentPlayer)
+        public static List<Player> GetOpponents(Player player)
         {
-            List<Player> opponents = new List<Player>();
-            foreach (Player player in players)
-            {
-                if (player.playerID != currentPlayer.playerID && player.teamID != currentPlayer.teamID)
-                {
-                    opponents.Add(player);
-                }
-            }
-
-            return opponents;
+            return PlayerManager.instance.players.Where(plr => plr.teamID != player.teamID).ToList();
         }
 
         public static CardInfo FindCard(string cardName)
