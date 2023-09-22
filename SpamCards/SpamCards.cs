@@ -59,6 +59,9 @@ namespace SpamCards
             CustomCard.BuildCard<FasterBulletsPlus>();
             CustomCard.BuildCard<FasterBulletsPlusPlus>();
             CustomCard.BuildCard<FasterBulletsPlusPlusPlus>();
+            CustomCard.BuildCard<EquivalentExchange>();
+            CustomCard.BuildCard<DoYouDare>();
+            CustomCard.BuildCard<Restrategize>();
 
             //hidden cards (debuffs)
             CustomCard.BuildCard<HealthLoss>(DebuffCardInit);
