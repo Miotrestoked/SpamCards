@@ -53,7 +53,7 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Of a random enemies ammo",
+                    stat = "Of a random enemy's ammo",
                     amount = "+3",
                     simepleAmount = CardInfoStat.SimpleAmount.Some
                 }

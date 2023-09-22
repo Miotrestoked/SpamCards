@@ -16,21 +16,25 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            int roll = new System.Random().Next(0, 4);
+            var cards = ModdingUtils.Utils.Cards.instance;
+
+            var random = new System.Random();
+            int roll = random.Next(0, 4);
 
             if (roll == 0) //too bad
             {
-                roll = new System.Random().Next(0, SpamCards.debuffCards.Count);
-                ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, SpamCards.debuffCards[roll], false, "??", 0, 0);
-                roll = new System.Random().Next(0, SpamCards.debuffCards.Count);
-                ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, SpamCards.debuffCards[roll], false, "??", 0, 0);
+                for (var i = 0; i < 2; i++)
+                {
+                    roll = random.Next(0, SpamCards.debuffCards.Count);
+                    cards.AddCardToPlayer(player, SpamCards.debuffCards[roll], false, "??", 0, 0);
+                }
             }
             else //lucky you
             {
                 roll = new System.Random().Next(0, SpamCards.debuffCards.Count);
-                foreach (Player enemy in SpamCards.GetOpponents(player))
+                foreach (var enemy in SpamCards.GetOpponents(player))
                 {
-                    ModdingUtils.Utils.Cards.instance.AddCardToPlayer(enemy, SpamCards.debuffCards[roll], false, "??", 0, 0);
+                    cards.AddCardToPlayer(enemy, SpamCards.debuffCards[roll], false, "??", 0, 0);
                 }
             }
         }

@@ -24,11 +24,6 @@ namespace SpamCards.Cards
             //Run when the card is removed from the player
         }
 
-        public override bool GetEnabled()
-        {
-            return false;
-        }
-
         protected override string GetTitle()
         {
             return "Restrategize";
@@ -58,7 +53,7 @@ namespace SpamCards.Cards
 
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.DestructiveRed;
+            return CardThemeColor.CardThemeColorType.PoisonGreen;
         }
 
         public override string GetModName()

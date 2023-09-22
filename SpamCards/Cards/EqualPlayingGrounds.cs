@@ -40,7 +40,7 @@ namespace SpamCards.Cards
         }
         protected override string GetDescription()
         {
-            return "All HP is distributed equally!";
+            return "All HP is distributed equally";
         }
         protected override GameObject GetCardArt()
         {

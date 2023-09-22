@@ -33,7 +33,7 @@ namespace SpamCards.Cards
         }
         protected override string GetDescription()
         {
-            return "Your entire team gets small and fast, but loses some hp!";
+            return "Your entire team gets small and fast, but loses some HP!";
         }
         protected override GameObject GetCardArt()
         {

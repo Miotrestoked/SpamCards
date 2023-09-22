@@ -45,7 +45,7 @@ namespace SpamCards.Cards
 
         protected override string GetDescription()
         {
-            return "Take 10% of each enemy's hp and add it to your own.";
+            return "Take 10% of each enemy's HP and add it to your own.";
         }
 
         protected override GameObject GetCardArt()
@@ -65,7 +65,7 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Of each enemy's hp",
+                    stat = "Of each enemy's HP",
                     amount = "+10%",
                     simepleAmount = CardInfoStat.SimpleAmount.Some
                 }

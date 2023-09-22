@@ -59,8 +59,8 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Hp/s",
-                    amount = "+1",
+                    stat = "Regen",
+                    amount = "+1 HP/s",
                     simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
                 }
             };

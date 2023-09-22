@@ -15,20 +15,14 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            float totalHealth = player.data.maxHealth;
             player.data.maxHealth /= 2;
-            gun.damage += ((totalHealth / 2f) / 55f);
+            gun.damage += ((player.data.maxHealth) / 55f);
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
-        }
-
-        public override bool GetEnabled()
-        {
-            return false;
         }
 
         protected override string GetTitle()
@@ -38,7 +32,7 @@ namespace SpamCards.Cards
 
         protected override string GetDescription()
         {
-            return "Lose 50% of your health, but gain the lost hp in damage";
+            return "Lose 50% of your max health, but gain the lost HP in damage";
         }
 
         protected override GameObject GetCardArt()
@@ -58,15 +52,15 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = false,
-                    stat = "Health",
+                    stat = "HP",
                     amount = "-50%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Damage",
-                    amount = "+(HP/2)",
+                    stat = "in damage",
+                    amount = "+Your lost HP",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };

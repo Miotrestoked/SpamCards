@@ -60,14 +60,14 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Health (5/6 chance)",
+                    stat = "HP (5/6 chance)",
                     amount = "+50%",
                     simepleAmount = CardInfoStat.SimpleAmount.aLotOf
                 },
                 new CardInfoStat()
                 {
                     positive = false,
-                    stat = "Health (1/6 chance)",
+                    stat = "HP (1/6 chance)",
                     amount = "-50%",
                     simepleAmount = CardInfoStat.SimpleAmount.aLotLower
                 }
