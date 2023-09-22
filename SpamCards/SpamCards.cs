@@ -63,13 +63,12 @@ namespace SpamCards
             CustomCard.BuildCard<DoYouDare>();
             CustomCard.BuildCard<Restrategize>();
             CustomCard.BuildCard<BurstOfAmmo>();
-            CustomCard.BuildCard<Lootbag>();
+            // CustomCard.BuildCard<Lootbag>();
 
             //hidden cards (debuffs)
             CustomCard.BuildCard<HealthLoss>(DebuffCardInit);
             CustomCard.BuildCard<My600lbsLife>(DebuffCardInit);
             CustomCard.BuildCard<Goteem>(DebuffCardInit);
-            CustomCard.BuildCard<InfiniBurst>(DebuffCardInit);
 
             //hidden cards (buffs)
             CustomCard.BuildCard<DamageBuff>(BuffCardInit);
