@@ -1,4 +1,5 @@
-﻿using UnboundLib.Cards;
+﻿using System.Drawing;
+using UnboundLib.Cards;
 using UnityEngine;
 
 namespace SpamCards.Cards
@@ -15,6 +16,8 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
+            (block.cooldown, gunAmmo.reloadTime) = (gunAmmo.reloadTime, block.cooldown);
+            (block.cdAdd, gunAmmo.reloadTimeAdd) = (gunAmmo.reloadTimeAdd, block.cdAdd);
             (block.cdMultiplier, gunAmmo.reloadTimeMultiplier) = (gunAmmo.reloadTimeMultiplier, block.cdMultiplier);
         }
 
