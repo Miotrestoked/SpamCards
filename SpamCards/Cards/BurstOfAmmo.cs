@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SpamCards.Cards
 {
-    class GiveCardTest : CustomCard
+    class BurstOfAmmo : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
@@ -15,9 +15,9 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            var cards = ModdingUtils.Utils.Cards.instance;
-            var healthloss = SpamCards.debuffCards[0];
-            cards.AddCardToPlayer(player, healthloss, false, "HL", 0, 0);
+            gun.bursts += player.data.weaponHandler.gun.bursts < 2 ? 2 : 1;
+            gun.timeBetweenBullets = 0.1f;
+            gunAmmo.maxAmmo += 3;
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
@@ -28,12 +28,12 @@ namespace SpamCards.Cards
 
         protected override string GetTitle()
         {
-            return "Give card test";
+            return "Burst of ammo";
         }
 
         protected override string GetDescription()
         {
-            return "Picking this card should give you a Health Loss card.";
+            return "Some extra ammo, but you're forced to shoot more at a time.";
         }
 
         protected override GameObject GetCardArt()
@@ -50,6 +50,20 @@ namespace SpamCards.Cards
         {
             return new CardInfoStat[]
             {
+                new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Burst",
+                    amount = "+1",
+                    simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
+                },
+                new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Ammo",
+                    amount = "+3",
+                    simepleAmount = CardInfoStat.SimpleAmount.Some
+                }
             };
         }
 
