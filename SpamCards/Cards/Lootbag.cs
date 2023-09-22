@@ -28,10 +28,25 @@ namespace SpamCards.Cards
             Action[] actions = { damage, reloadTime, ammo, attackSpeed, projectileSpeed };
 
             actions.Shuffle(); //shuffle so three random actions can be picked
+
+            UnityEngine.Debug.Log($"Before actions are invoked stats are: \n" +
+                                  $"Damage: {gun.damage}\n" +
+                                  $"Reload time add: {gun.reloadTimeAdd}\n" +
+                                  $"Ammo: {gunAmmo.maxAmmo}\n" +
+                                  $"Attack speed multiplier: {gun.attackSpeedMultiplier}\n" +
+                                  $"Projectile speed: {gun.projectielSimulatonSpeed}");
+
             for (var i = 0; i < 3; i++)
             {
                 actions[i].Invoke();
             }
+
+            UnityEngine.Debug.Log($"After actions are invoked stats are: \n" +
+                                  $"Damage: {gun.damage}\n" +
+                                  $"Reload time add: {gun.reloadTimeAdd}\n" +
+                                  $"Ammo: {gunAmmo.maxAmmo}\n" +
+                                  $"Attack speed multiplier: {gun.attackSpeedMultiplier}\n" +
+                                  $"Projectile speed: {gun.projectielSimulatonSpeed}");
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
