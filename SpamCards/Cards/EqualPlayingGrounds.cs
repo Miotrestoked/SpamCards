@@ -18,6 +18,7 @@ namespace SpamCards.Cards
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
+            //Edits values on player when card is selected
             float totalHp = 0;
             foreach (Player otherPlayer in PlayerManager.instance.players)
             {
@@ -26,8 +27,7 @@ namespace SpamCards.Cards
             foreach (Player otherPlayer in PlayerManager.instance.players)
             {
                 otherPlayer.data.maxHealth = totalHp / PlayerManager.instance.players.Count;
-            }  
-            //Edits values on player when card is selected
+            }
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ModdingUtils.Utils;
 using UnboundLib.Cards;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace SpamCards.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            List<Player> opponents = SpamCards.GetOpponents(player);
+            List<Player> opponents = PlayerStatus.GetEnemyPlayers(player);
 
             var cards = ModdingUtils.Utils.Cards.instance;
 

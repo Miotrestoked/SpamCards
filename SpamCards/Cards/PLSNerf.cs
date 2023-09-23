@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ModdingUtils.Utils;
 using UnboundLib;
 using UnboundLib.Cards;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace SpamCards.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            Player randomPlayer = SpamCards.GetRandomOpponent(player); 
+            Player randomPlayer = PlayerStatus.GetRandomEnemyPlayer(player); 
             ModdingUtils.Utils.Cards.instance.AddCardToPlayer(randomPlayer, SpamCards.FindCard("Reset HP"), false, "RH", 0, 0);
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)

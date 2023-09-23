@@ -1,4 +1,5 @@
-﻿using UnboundLib.Cards;
+﻿using ModdingUtils.Utils;
+using UnboundLib.Cards;
 using UnityEngine;
 
 namespace SpamCards.Cards
@@ -16,7 +17,7 @@ namespace SpamCards.Cards
         {
             //Edits values on player when card is selected
             gunAmmo.maxAmmo += 3;
-            Player opponent = SpamCards.GetRandomOpponent(player);
+            Player opponent = PlayerStatus.GetRandomEnemyPlayer(player);
             ModdingUtils.Utils.Cards.instance.AddCardToPlayer(opponent, SpamCards.FindCard("Goteem"), false, "JC", 0, 0);
         }
 

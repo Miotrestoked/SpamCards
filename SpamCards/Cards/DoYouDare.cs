@@ -1,6 +1,7 @@
 ﻿using UnboundLib.Cards;
 using UnityEngine;
 using System;
+using ModdingUtils.Utils;
 
 namespace SpamCards.Cards
 {
@@ -32,7 +33,7 @@ namespace SpamCards.Cards
             else //lucky you
             {
                 roll = new System.Random().Next(0, SpamCards.debuffCards.Count);
-                foreach (var enemy in SpamCards.GetOpponents(player))
+                foreach (var enemy in PlayerStatus.GetEnemyPlayers(player))
                 {
                     cards.AddCardToPlayer(enemy, SpamCards.debuffCards[roll], false, "??", 0, 0);
                 }

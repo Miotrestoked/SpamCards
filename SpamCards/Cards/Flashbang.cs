@@ -1,38 +1,44 @@
+using System;
+using System.Collections.Generic;
+using SpamCards.MonoBehaviours;
+using UnboundLib;
 using UnboundLib.Cards;
 using UnityEngine;
 
 namespace SpamCards.Cards
 {
-    class FruitySmoothie : CustomCard
+    class Flashbang : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            statModifiers.health = 1.2f;
-            statModifiers.regen = 1f;
+            statModifiers.health = 1.3f;
+            gun.reloadTimeAdd = 0.25f;
         }
 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
+            player.gameObject.GetOrAddComponent<FlashbangMono>();
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Run when the card is removed from the player
+            Destroy(player.gameObject.GetComponent<FlashbangMono>());
         }
 
         protected override string GetTitle()
         {
-            return "Fruity Smoothie";
+            return "Flashbang";
         }
 
         protected override string GetDescription()
         {
-            return "A refreshing and healthy drink.";
+            return "On block, blind your opponents for two seconds.";
         }
 
         protected override GameObject GetCardArt()
@@ -42,7 +48,7 @@ namespace SpamCards.Cards
 
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Common;
+            return CardInfo.Rarity.Uncommon;
         }
 
         protected override CardInfoStat[] GetStats()
@@ -53,14 +59,14 @@ namespace SpamCards.Cards
                 {
                     positive = true,
                     stat = "Max HP",
-                    amount = "+20%",
+                    amount = "+30%",
                     simepleAmount = CardInfoStat.SimpleAmount.Some
                 },
                 new CardInfoStat()
                 {
-                    positive = true,
-                    stat = "Regen",
-                    amount = "+1 HP/s",
+                    positive = false,
+                    stat = "Reload time",
+                    amount = "+0.25s",
                     simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
                 }
             };
@@ -68,7 +74,7 @@ namespace SpamCards.Cards
 
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            return CardThemeColor.CardThemeColorType.DefensiveBlue;
         }
 
         public override string GetModName()

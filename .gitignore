@@ -11,7 +11,7 @@
 *.sln.docstates
 
 # Project file (Force push changes in case you add a dependency)
-*.csproj
+SpamCards/SpamCards.csproj
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

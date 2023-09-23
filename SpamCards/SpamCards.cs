@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using BepInEx;
 using HarmonyLib;
+using ModdingUtils.Utils;
 using SpamCards.Cards;
 using UnboundLib;
 using UnboundLib.Cards;
@@ -64,6 +63,7 @@ namespace SpamCards
             CustomCard.BuildCard<Restrategize>();
             CustomCard.BuildCard<BurstOfAmmo>();
             // CustomCard.BuildCard<Lootbag>();
+            CustomCard.BuildCard<Flashbang>();
 
             //hidden cards (debuffs)
             CustomCard.BuildCard<HealthLoss>(DebuffCardInit);
@@ -86,18 +86,6 @@ namespace SpamCards
                 cards.AddHiddenCard(c);
                 debuffCards.Add(c);
             }
-        }
-
-        public static Player GetRandomOpponent(Player player)
-        {
-            List<Player> opponents = GetOpponents(player);
-
-            return opponents.GetRandom<Player>();
-        }
-
-        public static List<Player> GetOpponents(Player player)
-        {
-            return PlayerManager.instance.players.Where(plr => plr.teamID != player.teamID).ToList();
         }
 
         public static CardInfo FindCard(string cardName)
