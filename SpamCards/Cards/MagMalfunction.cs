@@ -17,7 +17,7 @@ namespace SpamCards.Cards
         {
             //Edits values on player when card is selected
             (gunAmmo.maxAmmo, gun.numberOfProjectiles) = (gun.numberOfProjectiles, gunAmmo.maxAmmo);
-            gun.spread += 5/360f;
+            gun.spread += 15/360f;
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
@@ -54,7 +54,7 @@ namespace SpamCards.Cards
                 {
                     positive = true,
                     stat = "Spread",
-                    amount = "+5%",
+                    amount = "+15%",
                     simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
                 }
             };

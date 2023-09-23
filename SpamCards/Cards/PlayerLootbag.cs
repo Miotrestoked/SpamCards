@@ -13,18 +13,12 @@ namespace SpamCards.Cards
             CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-        }
-
-        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
-            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            //Edits values on player when card is selected
-            Action hp = () => { player.data.maxHealth += 50; };
-            Action regen = () => { health.regeneration += 3; };
-            Action movementSpeed = () => { characterStats.movementSpeed *= 1.25f; };
-            Action size = () => { characterStats.sizeMultiplier *= 0.9f; };
-            Action jumps = () => { characterStats.numberOfJumps += 1; };
-
+            Action hp = () => { statModifiers.health = 50; };
+            Action regen = () => { statModifiers.regen = 3; };
+            Action movementSpeed = () => { statModifiers.movementSpeed = 1.25f; };
+            Action size = () => { statModifiers.sizeMultiplier = 0.9f;; };
+            Action jumps = () => { statModifiers.numberOfJumps = 1; };
+            
             Action[] actions = { hp, regen, movementSpeed, size, jumps };
 
             actions.Shuffle(); //shuffle so three random actions can be picked
@@ -33,6 +27,12 @@ namespace SpamCards.Cards
             {
                 actions[i].Invoke();
             }
+        }
+
+        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+        {
+            //Edits values on player when card is selected
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,

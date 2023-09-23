@@ -13,14 +13,8 @@ namespace SpamCards.Cards
             CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-        }
-
-        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
-            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            //Edits values on player when card is selected
             Action blocks = () => { block.additionalBlocks += 1; };
-            Action hpOnBlock = () => { block.healing += (player.data.maxHealth * 0.15f); };
+            Action hpOnBlock = () => { block.healing += 20; };
             Action cooldown = () => { block.cdAdd -= 0.2f; };
 
             Action[] actions = { blocks, hpOnBlock, cooldown};
@@ -31,6 +25,12 @@ namespace SpamCards.Cards
             {
                 actions[i].Invoke();
             }
+        }
+
+        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+        {
+            //Edits values on player when card is selected
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
@@ -74,13 +74,13 @@ namespace SpamCards.Cards
                 {
                     positive = true,
                     stat = "HP on block",
-                    amount = "15% or current hp",
+                    amount = "20",
                     simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
                 },
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "cooldown",
+                    stat = "Block cooldown",
                     amount = "-0.2s",
                     simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
                 },
