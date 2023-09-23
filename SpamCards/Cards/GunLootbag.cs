@@ -4,6 +4,7 @@ using UnboundLib;
 using UnboundLib.Cards;
 using UnboundLib.GameModes;
 using UnityEngine;
+using UnboundLib.Networking;
 
 namespace SpamCards.Cards
 {
@@ -27,12 +28,21 @@ namespace SpamCards.Cards
 
             Action[] actions = { damage, reloadTime, ammo, attackSpeed, projectileSpeed };
 
-            actions.Shuffle(); //shuffle so three random actions can be picked
-
-            for (var i = 0; i < 3; i++)
+            if (player.data.view.IsMine)
             {
-                actions[i].Invoke();
+                actions.Shuffle(); //shuffle so three random actions can be picked
+
+                for (var i = 0; i < 3; i++)
+                {
+                    NetworkingManager.RPC(typeof(CardInfo), "InvokeAction", actions[i]);
+                }
             }
+        }
+
+        [UnboundRPC]
+        public void InvokeAction(Action action)
+        {
+            action.Invoke();
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,

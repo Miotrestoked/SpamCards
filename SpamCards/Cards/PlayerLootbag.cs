@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnboundLib;
 using UnboundLib.Cards;
 using UnboundLib.GameModes;
+using UnboundLib.Networking;
 using UnityEngine;
 
 namespace SpamCards.Cards
@@ -13,26 +14,35 @@ namespace SpamCards.Cards
             CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            Action hp = () => { statModifiers.health = 50; };
-            Action regen = () => { statModifiers.regen = 3; };
-            Action movementSpeed = () => { statModifiers.movementSpeed = 1.25f; };
-            Action size = () => { statModifiers.sizeMultiplier = 0.9f;; };
-            Action jumps = () => { statModifiers.numberOfJumps = 1; };
-            
-            Action[] actions = { hp, regen, movementSpeed, size, jumps };
-
-            actions.Shuffle(); //shuffle so three random actions can be picked
-
-            for (var i = 0; i < 3; i++)
-            {
-                actions[i].Invoke();
-            }
         }
 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
+            Action hp = () => { player.data.maxHealth += 50; };
+            Action regen = () => { health.regeneration += 3; };
+            Action movementSpeed = () => { characterStats.movementSpeed *= 1.25f; };
+            Action size = () => { characterStats.sizeMultiplier *= 0.9f; };
+            Action jumps = () => { characterStats.numberOfJumps += 1; };
+
+            Action[] actions = { hp, regen, movementSpeed, size, jumps };
+
+            if (player.data.view.IsMine)
+            {
+                actions.Shuffle(); //shuffle so three random actions can be picked
+
+                for (var i = 0; i < 3; i++)
+                {
+                    NetworkingManager.RPC(typeof(CardInfo), "InvokeAction", actions[i]);
+                }
+            }
+        }
+
+        [UnboundRPC]
+        public void InvokeAction(Action action)
+        {
+            action.Invoke();
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,

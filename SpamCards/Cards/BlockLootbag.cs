@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnboundLib;
 using UnboundLib.Cards;
 using UnboundLib.GameModes;
+using UnboundLib.Networking;
 using UnityEngine;
 
 namespace SpamCards.Cards
@@ -13,24 +14,33 @@ namespace SpamCards.Cards
             CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
-            Action blocks = () => { block.additionalBlocks += 1; };
-            Action hpOnBlock = () => { block.healing += 20; };
-            Action cooldown = () => { block.cdAdd -= 0.2f; };
-
-            Action[] actions = { blocks, hpOnBlock, cooldown};
-
-            actions.Shuffle(); //shuffle so two random actions can be picked
-
-            for (var i = 0; i < 2; i++)
-            {
-                actions[i].Invoke();
-            }
         }
 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
+            Action blocks = () => { block.additionalBlocks += 1; };
+            Action hpOnBlock = () => { block.healing += 20; };
+            Action cooldown = () => { block.cdAdd -= 0.2f; };
+
+            Action[] actions = { blocks, hpOnBlock, cooldown };
+
+            if (player.data.view.IsMine)
+            {
+                actions.Shuffle(); //shuffle so two random actions can be picked
+
+                for (var i = 0; i < 2; i++)
+                {
+                    NetworkingManager.RPC(typeof(CardInfo), "InvokeAction", actions[i]);
+                }
+            }
+        }
+
+        [UnboundRPC]
+        public void InvokeAction(Action action)
+        {
+            action.Invoke();
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
