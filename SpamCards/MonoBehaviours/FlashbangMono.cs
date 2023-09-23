@@ -21,7 +21,7 @@ namespace SpamCards.MonoBehaviours
 
             previous = block.BlockAction;
 
-            flashbang = new Action<BlockTrigger.BlockTriggerType>(GetDoBlockAction(player, block).Invoke);
+            flashbang = new Action<BlockTrigger.BlockTriggerType>(OnBlock(player, block).Invoke);
             block.BlockAction = (Action<BlockTrigger.BlockTriggerType>)Delegate.Combine(block.BlockAction, flashbang);
         }
 
@@ -38,7 +38,7 @@ namespace SpamCards.MonoBehaviours
             block.BlockAction = previous;
         }
 
-        public Action<BlockTrigger.BlockTriggerType> GetDoBlockAction(Player player, Block block)
+        public Action<BlockTrigger.BlockTriggerType> OnBlock(Player player, Block block)
         {
             return delegate(BlockTrigger.BlockTriggerType trigger)
             {

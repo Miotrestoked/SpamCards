@@ -19,34 +19,40 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            Action damage = () => { gun.damage += (10f / 55f); };
-            Action reloadTime = () => { gun.reloadTimeAdd -= 0.5f; };
-            Action ammo = () => { gunAmmo.maxAmmo += 3; };
-            Action attackSpeed = () => { gun.attackSpeedMultiplier += .2f; };
-            Action projectileSpeed = () => { gun.projectielSimulatonSpeed += 0.2f; };
+            Action damage = () =>
+            {
+                gun.damage += (10f / 55f);
+                UnityEngine.Debug.Log("Damage was increased");
+            };
+            Action reloadTime = () =>
+            {
+                gunAmmo.reloadTimeAdd -= 0.5f;
+                UnityEngine.Debug.Log("Reload time was decreased");
+            };
+            Action ammo = () =>
+            {
+                gunAmmo.maxAmmo += 3;
+                UnityEngine.Debug.Log("Ammo was increased");
+            };
+            Action attackSpeed = () =>
+            {
+                gun.attackSpeed *= 0.8f;
+                UnityEngine.Debug.Log("Attack speed was increased");
+            };
+            Action projectileSpeed = () =>
+            {
+                gun.projectielSimulatonSpeed += 0.2f;
+                UnityEngine.Debug.Log("Projectile speed was increased");
+            };
 
             Action[] actions = { damage, reloadTime, ammo, attackSpeed, projectileSpeed };
 
             actions.Shuffle(); //shuffle so three random actions can be picked
 
-            UnityEngine.Debug.Log($"Before actions are invoked stats are: \n" +
-                                  $"Damage: {gun.damage}\n" +
-                                  $"Reload time add: {gun.reloadTimeAdd}\n" +
-                                  $"Ammo: {gunAmmo.maxAmmo}\n" +
-                                  $"Attack speed multiplier: {gun.attackSpeedMultiplier}\n" +
-                                  $"Projectile speed: {gun.projectielSimulatonSpeed}");
-
             for (var i = 0; i < 3; i++)
             {
                 actions[i].Invoke();
             }
-
-            UnityEngine.Debug.Log($"After actions are invoked stats are: \n" +
-                                  $"Damage: {gun.damage}\n" +
-                                  $"Reload time add: {gun.reloadTimeAdd}\n" +
-                                  $"Ammo: {gunAmmo.maxAmmo}\n" +
-                                  $"Attack speed multiplier: {gun.attackSpeedMultiplier}\n" +
-                                  $"Projectile speed: {gun.projectielSimulatonSpeed}");
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
