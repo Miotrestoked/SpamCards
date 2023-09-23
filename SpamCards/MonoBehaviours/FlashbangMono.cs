@@ -12,7 +12,7 @@ namespace SpamCards.MonoBehaviours
         private Block block;
         private Action<BlockTrigger.BlockTriggerType> flashbang;
         private Action<BlockTrigger.BlockTriggerType> previous;
-        private readonly float range = 25f;
+        private readonly float range = 15f;
 
         private void Awake()
         {
@@ -61,7 +61,6 @@ namespace SpamCards.MonoBehaviours
     {
         private readonly float duration = 2f;
         private float startTime;
-        private Player player;
         private GameObject fbOverlay;
         private GameObject fbCanvas;
 
@@ -99,7 +98,6 @@ namespace SpamCards.MonoBehaviours
             }
 
             float timePassed = Time.time - startTime;
-
             float alpha = Mathf.Lerp(2, 0, timePassed);
 
             if (player.data.view.IsMine)

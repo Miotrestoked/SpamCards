@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnboundLib;
 using UnboundLib.Cards;
-using UnboundLib.GameModes;
 using UnboundLib.Networking;
 using UnityEngine;
 
@@ -24,25 +24,30 @@ namespace SpamCards.Cards
             Action regen = () => { health.regeneration += 3; };
             Action movementSpeed = () => { characterStats.movementSpeed *= 1.25f; };
             Action size = () => { characterStats.sizeMultiplier *= 0.9f; };
-            Action jumps = () => { characterStats.numberOfJumps += 1; };
+            Action jumps = () => { data.jumps += 1; };
 
-            Action[] actions = { hp, regen, movementSpeed, size, jumps };
+            List<Action> actions = new List<Action> { hp, regen, movementSpeed, size, jumps };
 
-            if (player.data.view.IsMine)
+            if (PhotonNetwork.IsMasterClient)
             {
-                actions.Shuffle(); //shuffle so three random actions can be picked
+                var rng = new System.Random();
+                int index1 = rng.Next(0, actions.Count - 1);
+                int index2 = rng.Next(0, actions.Count - 2);
 
-                for (var i = 0; i < 3; i++)
-                {
-                    NetworkingManager.RPC(typeof(CardInfo), "InvokeAction", actions[i]);
-                }
+                actions.RemoveAt(index1);
+                actions.RemoveAt(index2);
+
+                NetworkingManager.RPC(typeof(PlayerLootbag), nameof(InvokeActions), actions);
             }
         }
 
         [UnboundRPC]
-        public void InvokeAction(Action action)
+        private static void InvokeActions(List<Action> actions)
         {
-            action.Invoke();
+            foreach (var action in actions)
+            {
+                action.Invoke();
+            }
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
@@ -78,15 +83,15 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Health",
+                    stat = "HP",
                     amount = "+50",
                     simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
                 },
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "HP/s",
-                    amount = "+3",
+                    stat = "Regen",
+                    amount = "+3 HP/s",
                     simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
                 },
                 new CardInfoStat()
@@ -106,7 +111,7 @@ namespace SpamCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Jumps",
+                    stat = "Jump",
                     amount = "+1",
                     simepleAmount = CardInfoStat.SimpleAmount.aLittleBitOf
                 }

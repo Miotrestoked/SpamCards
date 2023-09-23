@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnboundLib;
 using UnboundLib.Cards;
-using UnboundLib.GameModes;
-using UnityEngine;
 using UnboundLib.Networking;
+using UnityEngine;
 
 namespace SpamCards.Cards
 {
@@ -26,23 +26,28 @@ namespace SpamCards.Cards
             Action attackSpeed = () => { gun.attackSpeed *= 0.8f; };
             Action projectileSpeed = () => { gun.projectielSimulatonSpeed += 0.2f; };
 
-            Action[] actions = { damage, reloadTime, ammo, attackSpeed, projectileSpeed };
+            List<Action> actions = new List<Action> { damage, reloadTime, ammo, attackSpeed, projectileSpeed };
 
-            if (player.data.view.IsMine)
+            if (PhotonNetwork.IsMasterClient)
             {
-                actions.Shuffle(); //shuffle so three random actions can be picked
+                var rng = new System.Random();
+                int index1 = rng.Next(0, actions.Count - 1);
+                int index2 = rng.Next(0, actions.Count - 2);
 
-                for (var i = 0; i < 3; i++)
-                {
-                    NetworkingManager.RPC(typeof(CardInfo), "InvokeAction", actions[i]);
-                }
+                actions.RemoveAt(index1);
+                actions.RemoveAt(index2);
+
+                NetworkingManager.RPC(typeof(GunLootbag), nameof(InvokeActions), actions);
             }
         }
 
         [UnboundRPC]
-        public void InvokeAction(Action action)
+        private static void InvokeActions(List<Action> actions)
         {
-            action.Invoke();
+            foreach (var action in actions)
+            {
+                action.Invoke();
+            }
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnboundLib;
 using UnboundLib.Cards;
-using UnboundLib.GameModes;
 using UnboundLib.Networking;
 using UnityEngine;
 
@@ -24,23 +24,28 @@ namespace SpamCards.Cards
             Action hpOnBlock = () => { block.healing += 20; };
             Action cooldown = () => { block.cdAdd -= 0.2f; };
 
-            Action[] actions = { blocks, hpOnBlock, cooldown };
+            List<Action> actions = new List<Action> { blocks, hpOnBlock, cooldown };
 
-            if (player.data.view.IsMine)
+            if (PhotonNetwork.IsMasterClient)
             {
-                actions.Shuffle(); //shuffle so two random actions can be picked
+                var rng = new System.Random();
+                int index1 = rng.Next(0, actions.Count - 1);
+                int index2 = rng.Next(0, actions.Count - 2);
 
-                for (var i = 0; i < 2; i++)
-                {
-                    NetworkingManager.RPC(typeof(CardInfo), "InvokeAction", actions[i]);
-                }
+                actions.RemoveAt(index1);
+                actions.RemoveAt(index2);
+
+                NetworkingManager.RPC(typeof(BlockLootbag), nameof(InvokeActions), actions);
             }
         }
 
         [UnboundRPC]
-        public void InvokeAction(Action action)
+        private static void InvokeActions(List<Action> actions)
         {
-            action.Invoke();
+            foreach (var action in actions)
+            {
+                action.Invoke();
+            }
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
