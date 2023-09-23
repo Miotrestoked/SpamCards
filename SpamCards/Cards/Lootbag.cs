@@ -19,31 +19,11 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            Action damage = () =>
-            {
-                gun.damage += (10f / 55f);
-                UnityEngine.Debug.Log("Damage was increased");
-            };
-            Action reloadTime = () =>
-            {
-                gunAmmo.reloadTimeAdd -= 0.5f;
-                UnityEngine.Debug.Log("Reload time was decreased");
-            };
-            Action ammo = () =>
-            {
-                gunAmmo.maxAmmo += 3;
-                UnityEngine.Debug.Log("Ammo was increased");
-            };
-            Action attackSpeed = () =>
-            {
-                gun.attackSpeed *= 0.8f;
-                UnityEngine.Debug.Log("Attack speed was increased");
-            };
-            Action projectileSpeed = () =>
-            {
-                gun.projectielSimulatonSpeed += 0.2f;
-                UnityEngine.Debug.Log("Projectile speed was increased");
-            };
+            Action damage = () => { gun.damage += (10f / 55f); };
+            Action reloadTime = () => { gunAmmo.reloadTimeAdd -= 0.5f; };
+            Action ammo = () => { gunAmmo.maxAmmo += 3; };
+            Action attackSpeed = () => { gun.attackSpeed *= 0.8f; };
+            Action projectileSpeed = () => { gun.projectielSimulatonSpeed += 0.2f; };
 
             Action[] actions = { damage, reloadTime, ammo, attackSpeed, projectileSpeed };
 

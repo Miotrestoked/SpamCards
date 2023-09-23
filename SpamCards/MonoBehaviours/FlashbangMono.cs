@@ -61,6 +61,7 @@ namespace SpamCards.MonoBehaviours
     {
         private readonly float duration = 2f;
         private float startTime;
+        private Player player;
         private GameObject fbOverlay;
         private GameObject fbCanvas;
 
@@ -101,7 +102,10 @@ namespace SpamCards.MonoBehaviours
 
             float alpha = Mathf.Lerp(2, 0, timePassed);
 
-            fbOverlay.GetOrAddComponent<Image>().SetAlpha(alpha);
+            if (player.data.view.IsMine)
+            {
+                fbOverlay.GetOrAddComponent<Image>().SetAlpha(alpha);
+            }
         }
     }
 }
