@@ -62,8 +62,14 @@ namespace SpamCards
             CustomCard.BuildCard<DoYouDare>();
             CustomCard.BuildCard<Restrategize>();
             CustomCard.BuildCard<BurstOfAmmo>();
-            CustomCard.BuildCard<Lootbag>();
+            CustomCard.BuildCard<GunLootbag>();
+            CustomCard.BuildCard<PlayerLootbag>();
+            CustomCard.BuildCard<BlockLootbag>();
             CustomCard.BuildCard<Flashbang>();
+            CustomCard.BuildCard<Yoink>();
+            CustomCard.BuildCard<Yeet>();
+            CustomCard.BuildCard<MagMalfunction>();
+            
 
             //hidden cards (debuffs)
             CustomCard.BuildCard<HealthLoss>(DebuffCardInit);

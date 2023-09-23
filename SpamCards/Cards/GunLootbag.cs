@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace SpamCards.Cards
 {
-    class Lootbag : CustomCard
+    class GunLootbag : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
@@ -43,7 +43,7 @@ namespace SpamCards.Cards
 
         protected override string GetTitle()
         {
-            return "Lootbag";
+            return "Gun Lootbag";
         }
 
         protected override string GetDescription()
