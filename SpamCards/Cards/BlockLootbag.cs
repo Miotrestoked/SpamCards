@@ -10,42 +10,44 @@ namespace SpamCards.Cards
 {
     class BlockLootbag : CustomCard
     {
+        private int[] indices;
+
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
+            if (PhotonNetwork.IsMasterClient && indices.Length == 0) //dont randomise again if indices isnt empty, this ensures boosts persist if card is re-added
+            {
+                var indexList = new List<int> { 0, 1, 2 };
+                var rng = new System.Random();
+                int index1 = rng.Next(0, indexList.Count - 1);
+
+                indexList.RemoveAt(index1);
+
+                NetworkingManager.RPC(typeof(BlockLootbag), nameof(RPCA_SetIndices), indexList.ToArray());
+            }
         }
 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            Action blocks = () => { block.additionalBlocks += 1; };
-            Action hpOnBlock = () => { block.healing += 20; };
-            Action cooldown = () => { block.cdAdd -= 0.2f; };
+            void blocks() { block.additionalBlocks += 1; }
+            void hpOnBlock() { block.healing += 20; }
+            void cooldown() { block.cdAdd -= 0.2f; }
 
             List<Action> actions = new List<Action> { blocks, hpOnBlock, cooldown };
 
-            if (PhotonNetwork.IsMasterClient)
+            for (var i = 0; i < indices.Length; i++)
             {
-                var rng = new System.Random();
-                int index1 = rng.Next(0, actions.Count - 1);
-                int index2 = rng.Next(0, actions.Count - 2);
-
-                actions.RemoveAt(index1);
-                actions.RemoveAt(index2);
-
-                NetworkingManager.RPC(typeof(BlockLootbag), nameof(InvokeActions), actions);
+                actions[indices[i]].Invoke();
             }
         }
 
         [UnboundRPC]
-        private static void InvokeActions(List<Action> actions)
+        private void RPCA_SetIndices(int[] indices)
         {
-            foreach (var action in actions)
-            {
-                action.Invoke();
-            }
+            this.indices = indices;
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,

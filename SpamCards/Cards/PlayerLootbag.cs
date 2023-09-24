@@ -10,44 +10,48 @@ namespace SpamCards.Cards
 {
     class PlayerLootbag : CustomCard
     {
+        private int[] indices;
+
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
+            if (PhotonNetwork.IsMasterClient && indices.Length == 0) //dont randomise again if indices isnt empty, this ensures boosts persist if card is re-added
+            {
+                var indexList = new List<int> { 0, 1, 2, 3, 4 };
+                var rng = new System.Random();
+                int index1 = rng.Next(0, indexList.Count - 1);
+                int index2 = rng.Next(0, indexList.Count - 2);
+
+                indexList.RemoveAt(index1);
+                indexList.RemoveAt(index2);
+
+                NetworkingManager.RPC(typeof(PlayerLootbag), nameof(RPCA_SetIndices), indexList.ToArray());
+            }
         }
 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            Action hp = () => { player.data.maxHealth += 50; };
-            Action regen = () => { health.regeneration += 3; };
-            Action movementSpeed = () => { characterStats.movementSpeed *= 1.25f; };
-            Action size = () => { characterStats.sizeMultiplier *= 0.9f; };
-            Action jumps = () => { data.jumps += 1; };
+            void hp() { player.data.maxHealth += 50; }
+            void regen() { health.regeneration += 3; }
+            void movementSpeed() { characterStats.movementSpeed *= 1.25f; }
+            void size() { characterStats.sizeMultiplier *= 0.9f; }
+            void jumps() { data.jumps += 1; }
 
             List<Action> actions = new List<Action> { hp, regen, movementSpeed, size, jumps };
 
-            if (PhotonNetwork.IsMasterClient)
+            for (var i = 0; i < indices.Length; i++)
             {
-                var rng = new System.Random();
-                int index1 = rng.Next(0, actions.Count - 1);
-                int index2 = rng.Next(0, actions.Count - 2);
-
-                actions.RemoveAt(index1);
-                actions.RemoveAt(index2);
-
-                NetworkingManager.RPC(typeof(PlayerLootbag), nameof(InvokeActions), actions);
+                actions[indices[i]].Invoke();
             }
         }
 
         [UnboundRPC]
-        private static void InvokeActions(List<Action> actions)
+        private void RPCA_SetIndices(int[] indices)
         {
-            foreach (var action in actions)
-            {
-                action.Invoke();
-            }
+            this.indices = indices;
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,

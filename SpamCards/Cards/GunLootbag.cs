@@ -10,44 +10,54 @@ namespace SpamCards.Cards
 {
     class GunLootbag : CustomCard
     {
+        private int[] indices;
+
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
-            //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
+            //Edits values on card itself, which are then applied to the player in `ApplyCardStats`if (PhotonNetwork.IsMasterClient && indices.Length == 0) //dont randomise again if indices isnt empty, this ensures boosts persist if card is re-added
+            {
+                var indexList = new List<int> { 0, 1, 2, 3, 4 };
+                var rng = new System.Random();
+                int index1 = rng.Next(0, indexList.Count - 1);
+                int index2 = rng.Next(0, indexList.Count - 2);
+
+                indexList.RemoveAt(index1);
+                indexList.RemoveAt(index2);
+
+                if (PhotonNetwork.OfflineMode)
+                {
+                    RPCA_SetIndices(indexList.ToArray());
+                }
+                else
+                {
+                    NetworkingManager.RPC(typeof(GunLootbag), nameof(RPCA_SetIndices), indexList.ToArray());
+                }
+            }
         }
 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            Action damage = () => { gun.damage += (10f / 55f); };
-            Action reloadTime = () => { gunAmmo.reloadTimeAdd -= 0.5f; };
-            Action ammo = () => { gunAmmo.maxAmmo += 3; };
-            Action attackSpeed = () => { gun.attackSpeed *= 0.8f; };
-            Action projectileSpeed = () => { gun.projectielSimulatonSpeed += 0.2f; };
+            void damage() { gun.damage += (10f / 55f); }
+            void reloadTime() { gunAmmo.reloadTimeAdd -= 0.5f; }
+            void ammo() { gunAmmo.maxAmmo += 3; }
+            void attackSpeed() { gun.attackSpeed *= 0.8f; }
+            void projectileSpeed() { gun.projectielSimulatonSpeed += 0.2f; }
 
             List<Action> actions = new List<Action> { damage, reloadTime, ammo, attackSpeed, projectileSpeed };
 
-            if (PhotonNetwork.IsMasterClient)
+            for (var i = 0; i < indices.Length; i++)
             {
-                var rng = new System.Random();
-                int index1 = rng.Next(0, actions.Count - 1);
-                int index2 = rng.Next(0, actions.Count - 2);
-
-                actions.RemoveAt(index1);
-                actions.RemoveAt(index2);
-
-                NetworkingManager.RPC(typeof(GunLootbag), nameof(InvokeActions), actions);
+                actions[indices[i]].Invoke();
             }
         }
 
         [UnboundRPC]
-        private static void InvokeActions(List<Action> actions)
+        private void RPCA_SetIndices(int[] indices)
         {
-            foreach (var action in actions)
-            {
-                action.Invoke();
-            }
+            this.indices = indices;
         }
 
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
