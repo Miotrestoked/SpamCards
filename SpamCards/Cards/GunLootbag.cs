@@ -10,12 +10,13 @@ namespace SpamCards.Cards
 {
     class GunLootbag : CustomCard
     {
-        private int[] indices;
+        private int[] indices = Array.Empty<int>();
 
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
-            //Edits values on card itself, which are then applied to the player in `ApplyCardStats`if (PhotonNetwork.IsMasterClient && indices.Length == 0) //dont randomise again if indices isnt empty, this ensures boosts persist if card is re-added
+            //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
+            if (PhotonNetwork.IsMasterClient && indices.Length ==0) //dont randomise again if indices isnt empty, this ensures boosts persist if card is re-added
             {
                 var indexList = new List<int> { 0, 1, 2, 3, 4 };
                 var rng = new System.Random();
@@ -24,15 +25,8 @@ namespace SpamCards.Cards
 
                 indexList.RemoveAt(index1);
                 indexList.RemoveAt(index2);
-
-                if (PhotonNetwork.OfflineMode)
-                {
-                    RPCA_SetIndices(indexList.ToArray());
-                }
-                else
-                {
-                    NetworkingManager.RPC(typeof(GunLootbag), nameof(RPCA_SetIndices), indexList.ToArray());
-                }
+                
+                NetworkingManager.RPC(typeof(GunLootbag), nameof(RPCA_SetIndices), indexList.ToArray());
             }
         }
 
@@ -40,11 +34,30 @@ namespace SpamCards.Cards
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //Edits values on player when card is selected
-            void damage() { gun.damage += (10f / 55f); }
-            void reloadTime() { gunAmmo.reloadTimeAdd -= 0.5f; }
-            void ammo() { gunAmmo.maxAmmo += 3; }
-            void attackSpeed() { gun.attackSpeed *= 0.8f; }
-            void projectileSpeed() { gun.projectielSimulatonSpeed += 0.2f; }
+            void damage()
+            {
+                gun.damage += (10f / 55f);
+            }
+
+            void reloadTime()
+            {
+                gunAmmo.reloadTimeAdd -= 0.5f;
+            }
+
+            void ammo()
+            {
+                gunAmmo.maxAmmo += 3;
+            }
+
+            void attackSpeed()
+            {
+                gun.attackSpeed *= 0.8f;
+            }
+
+            void projectileSpeed()
+            {
+                gun.projectielSimulatonSpeed += 0.2f;
+            }
 
             List<Action> actions = new List<Action> { damage, reloadTime, ammo, attackSpeed, projectileSpeed };
 

@@ -10,7 +10,7 @@ namespace SpamCards.Cards
 {
     class BlockLootbag : CustomCard
     {
-        private int[] indices;
+        private int[] indices = Array.Empty<int>();
 
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)

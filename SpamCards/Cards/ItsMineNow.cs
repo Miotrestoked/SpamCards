@@ -19,13 +19,17 @@ namespace SpamCards.Cards
             //Edits values on player when card is selected
             var cards = ModdingUtils.Utils.Cards.instance;
 
-            foreach (Player p in PlayerManager.instance.players)
+            if (hpTotal != 0f)
             {
-                if (p.teamID != player.teamID)
+                foreach (Player p in PlayerManager.instance.players)
                 {
-                    hpTotal += p.data.maxHealth * .1f;
-                    var healthloss = SpamCards.debuffCards[0];
-                    cards.AddCardToPlayer(p, healthloss, false, "HL", 0, 0);
+                    if (p.teamID != player.teamID)
+                    {
+                        hpTotal += p.data.maxHealth * .1f;
+                        var healthloss = SpamCards.debuffCards[0];
+                        //cards.AddCardToPlayer(p, healthloss, addToCardBar:true);
+                        cards.AddCardToPlayer(p, healthloss, false, "HL", 0, 0);
+                    }
                 }
             }
 

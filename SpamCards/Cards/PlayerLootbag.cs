@@ -10,7 +10,7 @@ namespace SpamCards.Cards
 {
     class PlayerLootbag : CustomCard
     {
-        private int[] indices;
+        private int[] indices = Array.Empty<int>();
 
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
@@ -51,6 +51,7 @@ namespace SpamCards.Cards
         [UnboundRPC]
         private void RPCA_SetIndices(int[] indices)
         {
+            UnityEngine.Debug.Log("\nRPC called\n");
             this.indices = indices;
         }
 
