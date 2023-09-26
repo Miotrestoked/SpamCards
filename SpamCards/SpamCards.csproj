@@ -37,6 +37,9 @@
         <Reference Include="UnityEngine">
             <HintPath>$(RoundsFolder)\Rounds_Data\Managed\UnityEngine.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.AssetBundleModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\ROUNDS\Rounds_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+        </Reference>
         <Reference Include="UnityEngine.CoreModule">
             <HintPath>$(RoundsFolder)\Rounds_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
         </Reference>
@@ -49,6 +52,11 @@
         <Reference Include="UnityEngine.UIModule">
           <HintPath>$(RoundsFolder)\Rounds_Data\Managed\UnityEngine.UIModule.dll</HintPath>
         </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="AssetsEmbedded\cardart" />
+      <EmbeddedResource Include="AssetsEmbedded\cardart" />
     </ItemGroup>
 
 </Project>

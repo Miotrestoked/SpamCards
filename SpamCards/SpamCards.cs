@@ -5,6 +5,7 @@ using ModdingUtils.Utils;
 using SpamCards.Cards;
 using UnboundLib;
 using UnboundLib.Cards;
+using UnityEngine;
 
 namespace SpamCards
 {
@@ -38,6 +39,11 @@ namespace SpamCards
         void Start()
         {
             instance = this;
+            loadCards();
+        }
+
+        void loadCards()
+        {
             var cards = ModdingUtils.Utils.Cards.instance;
 
             //regular cards
