@@ -50,7 +50,6 @@ namespace SpamCards.Cards
         [PunRPC]
         private void RPCA_SetIndices(int[] indices)
         {
-            UnityEngine.Debug.Log("\nRPC called\n");
             this.indices = indices;
         }
 

@@ -17,7 +17,6 @@ namespace SpamCards.Cards
             //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
             if (PhotonNetwork.IsMasterClient && indices.Length == 0) //dont randomise again if indices isnt empty, this ensures boosts persist if card is re-added
             {
-                UnityEngine.Debug.Log("\n[SpamCards][DEBUG] Master client only - picking random numbers\n");
                 var indexList = new List<int> { 0, 1, 2 };
                 var rng = new Random();
                 int index1 = rng.Next(0, indexList.Count - 1);
