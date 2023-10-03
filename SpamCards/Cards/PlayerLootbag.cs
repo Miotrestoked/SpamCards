@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Photon.Pun;
-using UnboundLib;
 using UnboundLib.Cards;
-using UnboundLib.Networking;
 using UnityEngine;
+using Random = System.Random;
 
 namespace SpamCards.Cards
 {
@@ -19,14 +18,14 @@ namespace SpamCards.Cards
             if (PhotonNetwork.IsMasterClient && indices.Length == 0) //dont randomise again if indices isnt empty, this ensures boosts persist if card is re-added
             {
                 var indexList = new List<int> { 0, 1, 2, 3, 4 };
-                var rng = new System.Random();
+                var rng = new Random();
                 int index1 = rng.Next(0, indexList.Count - 1);
                 int index2 = rng.Next(0, indexList.Count - 2);
 
                 indexList.RemoveAt(index1);
                 indexList.RemoveAt(index2);
 
-                NetworkingManager.RPC(typeof(PlayerLootbag), nameof(RPCA_SetIndices), indexList.ToArray());
+                gameObject.GetComponent<PhotonView>().RPC(nameof(RPCA_SetIndices), RpcTarget.All, indexList.ToArray());
             }
         }
 
@@ -48,7 +47,7 @@ namespace SpamCards.Cards
             }
         }
 
-        [UnboundRPC]
+        [PunRPC]
         private void RPCA_SetIndices(int[] indices)
         {
             UnityEngine.Debug.Log("\nRPC called\n");
